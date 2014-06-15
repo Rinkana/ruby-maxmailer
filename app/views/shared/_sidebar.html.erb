@@ -17,7 +17,7 @@
           elsif currentBuildStatus > index
             itemClass = 'Done'
           elsif (currentBuildStatus + 1) === index
-            itemClass = 'Availible'
+            itemClass = 'Available'
           end
           %>
           <li class="<%= itemClass %>"><a href="<%= status['Location'] %>"><%= status['Name'] %></a></li>

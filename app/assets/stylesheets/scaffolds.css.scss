@@ -1,4 +1,53 @@
 //MIXINS
+@mixin long-shadow($type, $color, $length, $fadeout: true, $skew: false, $direction: right){
+  $shadow: '';
+  @if $skew == false or $type == text{
+    @if $direction == right {
+      @for $i from 0 to $length - 1 {
+        $shadow: $shadow + $i + 'px ' + $i + 'px 0 ' + $color + ',';
+      }
+    }
+    @if $direction == left {
+      @for $i from 0 to $length - 1 {
+        $shadow: $shadow + $i * -1 + 'px ' + $i + 'px 0 ' + $color + ',';
+      }
+    }
+  }
+
+  @if $fadeout == true{
+    @for $i from 1 to $length - 1 {
+      @if $type == text or $skew == false{
+        @if $direction == right{
+          $shadow: $shadow + $i + 'px ' + $i + 'px 0 ' +       rgba($color, 1 - $i / $length) + ',';
+        }
+        @if $direction == left{
+          $shadow: $shadow + $i * -1 + 'px ' + $i + 'px 0 ' +       rgba($color, 1 - $i / $length) + ',';
+        }
+      }
+      @if ($type == box) and $skew == true{
+        @if $direction == right {
+          $shadow: $shadow + $i + 'px ' + $i + 'px 0 ' + $i * .2 + 'px ' + rgba($color, 1 - $i / $length) + ',';
+        }
+        @if $direction == left {
+          $shadow: $shadow + $i * -1 + 'px ' + $i + 'px 0 ' + $i * .2 + 'px ' + rgba($color, 1 - $i / $length) + ',';
+        }
+      }
+    }
+    $shadow: $shadow + $length + 'px ' + $length + 'px 0 ' + rgba($color, 0);
+  }
+  @if $fadeout == false{
+    @if $skew == true and ( $type == box ){
+      @for $i from 0 to $length - 1 {
+        $shadow: $shadow + $i + 'px ' + $i + 'px 0 ' + $i * .1 + 'px ' + $color + ',';
+      }
+    }
+    $shadow: $shadow + $length + 'px ' + $length + 'px 0 ' + rgba(0,0,0,0);
+  }
+  $shadow: unquote($shadow);
+  @if $type == 'box' {box-shadow: $shadow;}
+  @if $type == 'text' {text-shadow: $shadow;}
+}
+
 @mixin icon($code){
   content:$code;
 
@@ -14,11 +63,11 @@
 }
 @font-face {
   font-family: 'icons';
-  src:url('Font/icons.eot?swag');
-  src:url('Font/icons.eot?#iefixswag') format('embedded-opentype'),
-  url('Font/icons.woff?swag') format('woff'),
-  url('Font/icons.ttf?swag') format('truetype'),
-  url('Font/icons.svg?swag#icons') format('svg');
+  src:url('icons.eot?swag');
+  src:url('icons.eot?#iefixswag') format('embedded-opentype'),
+  url('icons.woff?swag') format('woff'),
+  url('icons.ttf?swag') format('truetype'),
+  url('icons.svg?swag#icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -63,6 +112,7 @@ div.MenuBar span.Title{
   font-size:45px;
   color:#ffffff;
   //.longShadow(#DADADA, 45, 19);
+  @include long-shadow(text, #DADADA, 50, true, left);
 }
 div.StatusBar{
   padding-top:70px;

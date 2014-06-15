@@ -1,5 +1,5 @@
 class MailbuildersController < ApplicationController
-  before_action :set_mailbuilder, only: [:show, :edit, :update, :destroy]
+  before_action :set_mailbuilder, only: [:show, :edit, :update, :destroy,:general]
 
   # GET /mailbuilders
   # GET /mailbuilders.json
