@@ -1,0 +1,32 @@
+<%
+    currentBuildStatus = 1
+    buildstatus = []
+    buildstatus << {'Name' => 'General data','Location' => 'MailBuilder/general'}
+    buildstatus << {'Name' => 'Template','Location' => 'MailBuilder/template'}
+    buildstatus << {'Name' => 'Text','Location' => 'MailBuilder/text'}
+    buildstatus << {'Name' => 'Receivers','Location' => 'MailBuilder/receivers'}
+    buildstatus << {'Name' => 'Send time and date','Location' => 'MailBuilder/send'}
+%>
+<div class="StatusBar">
+  <ul>
+    <%
+        buildstatus.each_with_index do |status,index|
+          itemClass = 'Disabled'
+          if currentBuildStatus === index
+            itemClass = 'Active'
+          elsif currentBuildStatus > index
+            itemClass = 'Done'
+          elsif (currentBuildStatus + 1) === index
+            itemClass = 'Availible'
+          end
+          %>
+          <li class="<%= itemClass %>"><a href="<%= status['Location'] %>"><%= status['Name'] %></a></li>
+          <%
+        end
+    %>
+
+  </ul>
+	<span class="LastSave">
+		Last save: 04-04-2014 23:28
+	</span>
+</div>
